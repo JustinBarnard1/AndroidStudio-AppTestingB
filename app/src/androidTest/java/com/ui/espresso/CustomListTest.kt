@@ -6,7 +6,9 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.ui.espresso.bases.CustomListActivityBase
+import com.ui.espresso.bases.TestBase
 import com.ui.espresso.matchers.CustomMatchers
+import com.ui.espresso.models.BookData
 import org.hamcrest.CoreMatchers
 import org.junit.Before
 import org.junit.Test
@@ -20,7 +22,7 @@ import org.junit.Test
  * git commit results
  *
  */
-class CustomListTest : CustomListActivityBase() {
+class CustomListTest : TestBase() {
 
 
     @Before
@@ -35,38 +37,41 @@ class CustomListTest : CustomListActivityBase() {
         Espresso.onView(ViewMatchers.withId(R.id.custom_list_adapter_button)).perform(ViewActions.click())
 
         // Click on the Book with ID 5
-        Espresso.onData(CustomMatchers.withBookId(5)).perform(ViewActions.click())
+        Espresso.onData(CustomMatchers.withBookId(BookData.openBookId5)).perform(ViewActions.click())
 
         // Check the correct book title is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.book_title)).check(ViewAssertions.matches(ViewMatchers.withText(BOOK_TITLE)))
+        Espresso.onView(ViewMatchers.withId(R.id.book_title)).check(ViewAssertions.matches(ViewMatchers.withText(BookData.bookTitle5)))
 
         // Check the correct author is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.book_author)).check(ViewAssertions.matches(ViewMatchers.withText(BOOK_AUTHOR)))
+        Espresso.onView(ViewMatchers.withId(R.id.book_author)).check(ViewAssertions.matches(ViewMatchers.withText(BookData.bookAuthor5)))
     }
 
     @Test
     fun testOpenBookByTitleAndAuthor() {
 
+        Espresso.onView(ViewMatchers.withId(R.id.custom_list_adapter_button)).perform(ViewActions.click())
+
         // Match a book with a specific title and author name
-        Espresso.onData(CoreMatchers.allOf(CustomMatchers.withBookTitle(BOOK_TITLE), CustomMatchers.withBookAuthor(BOOK_AUTHOR))).perform(ViewActions.click())
+        Espresso.onData(CoreMatchers.allOf(CustomMatchers.withBookTitle(BookData.bookTitle5), CustomMatchers.withBookAuthor(BookData.bookAuthor5))).perform(ViewActions.click())
 
         // Check the correct book title is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.book_title)).check(ViewAssertions.matches(ViewMatchers.withText(BOOK_TITLE)))
+        Espresso.onView(ViewMatchers.withId(R.id.book_title)).check(ViewAssertions.matches(ViewMatchers.withText(BookData.bookTitle5)))
 
         // Check the correct author is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.book_author)).check(ViewAssertions.matches(ViewMatchers.withText(BOOK_AUTHOR)))
+        Espresso.onView(ViewMatchers.withId(R.id.book_author)).check(ViewAssertions.matches(ViewMatchers.withText(BookData.bookAuthor5)))
     }
 
     @Test
     fun testClickOnBookByPosition() {
-        Espresso.onData(CoreMatchers.anything()).atPosition(5).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.book_title)).check(ViewAssertions.matches(ViewMatchers.withText(BOOK_TITLE)))
-        Espresso.onView(ViewMatchers.withId(R.id.book_author)).check(ViewAssertions.matches(ViewMatchers.withText(BOOK_AUTHOR)))
+        Espresso.onView(ViewMatchers.withId(R.id.custom_list_adapter_button)).perform(ViewActions.click())
+        Espresso.onData(CoreMatchers.anything()).atPosition(BookData.position5).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.book_title)).check(ViewAssertions.matches(ViewMatchers.withText(BookData.bookTitle5)))
+        Espresso.onView(ViewMatchers.withId(R.id.book_author)).check(ViewAssertions.matches(ViewMatchers.withText(BookData.bookAuthor5)))
     }
 
-    companion object {
+    //companion object {
         // MOVE and add to STRINGS IN BookData
-        private const val BOOK_TITLE = "Java Concurrency in Practice"
-        private const val BOOK_AUTHOR = "Brian Goetz"
-    }
+        //private const val BOOK_TITLE = "Java Concurrency in Practice"
+        //private const val BOOK_AUTHOR = "Brian Goetz"
+    //}
 }
